@@ -1,0 +1,1 @@
+{"mappings":"AAEA","sources":["src/sass/index.scss","src/sass/_var.scss"],"sourcesContent":["@use 'var';\n\nbody {\n    background-color: var.$site-background-color;\n}",null],"names":[],"version":3,"file":"index.b07a87f3.css.map","sourceRoot":"/__parcel_source_root/"}
