@@ -1,5 +1,8 @@
 @use 'var';
 
+@import './components/footer';
+@import './components/header';
+
 body {
     background-color: var.$site-background-color;
 }
