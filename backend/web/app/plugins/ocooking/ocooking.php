@@ -9,4 +9,23 @@ require plugin_dir_path(__FILE__) . './post-types/recette.php';
 
 // Load new taxonomies
 require plugin_dir_path(__FILE__) . './taxonomies/ingredient.php';
-require plugin_dir_path(__FILE__) . './taxonomies/type.php';
+require plugin_dir_path(__FILE__) . './taxonomies/famille.php';
+
+// Load new role functions
+require plugin_dir_path(__FILE__) . './roles/cuisinier.php';
+
+if (!function_exists('ocookingActivationPlugin')) {
+    function ocookingActivationPlugin()
+    {
+        ocookingCreateCuisinierRole();
+    }
+    register_activation_hook(__FILE__, 'ocookingActivationPlugin');
+}
+
+if (!function_exists('ocookingDeactivationPlugin')) {
+    function ocookingDeactivationPlugin()
+    {
+        ocookingRemoveCuisinierRole();
+    }
+    register_deactivation_hook(__FILE__, 'ocookingDeactivationPlugin');
+}
