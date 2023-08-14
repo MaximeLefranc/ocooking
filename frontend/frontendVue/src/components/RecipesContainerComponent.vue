@@ -3,8 +3,9 @@
     <div class="recipe-list">
       <h1>Recettes</h1>
       <input class="recipe-list-input" type="text" v-model="searchString">
-      <RecipeComponent v-for="recipe in displayedRecipes" v-bind:key="recipe.id" v-bind:title="recipe.title.rendered"
-        v-bind:description="recipe.excerpt.rendered" />
+      <RecipeComponent v-for="recipe in    displayedRecipes   " v-bind:key="recipe.id"
+        v-bind:title="recipe.title.rendered" v-bind:description="recipe.excerpt.rendered"
+        v-bind:image="recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100'" />
     </div>
   </main>
 </template>

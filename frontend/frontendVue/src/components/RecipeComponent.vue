@@ -1,8 +1,7 @@
 <template>
   <article class="article">
     <a href="javascript:void(0)">
-      <div class="media-image"
-        style="background-image: url(&quot;https://source.unsplash.com/collection/157&random=100&quot;)"></div>
+      <div class="media-image" v-bind:style="'background-image: url(' + image + ')'"></div>
       <div class="text-content">
         <h2>{{ title }}</h2>
         <div v-html="description"></div>
@@ -16,7 +15,8 @@ export default {
   name: 'RecipeComponent',
   props: {
     title: String,
-    description: String
+    description: String,
+    image: String
   }
 }
 </script>

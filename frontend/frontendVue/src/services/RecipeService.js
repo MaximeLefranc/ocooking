@@ -11,7 +11,7 @@ const apiClient = axios.create({
 
 export default {
   async findAll() {
-    const response = await apiClient.get('/recettes');
+    const response = await apiClient.get('/recettes?_embed');
     return response.data;
   },
 };
