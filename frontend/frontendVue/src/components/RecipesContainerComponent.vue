@@ -3,6 +3,10 @@
     <div class="recipe-list">
       <h1>Recettes</h1>
       <input class="recipe-list-input" type="text" v-model="searchString">
+      <div>
+        <button v-if="currentPage !== 1" v-on:click="previousPage">Page Précédente</button>
+        <button v-if="maxPages > this.currentPage" v-on:click="nextPage">Page Suivante</button>
+      </div>
       <RecipeComponent v-for="recipe in    displayedRecipes   " v-bind:key="recipe.id"
         v-bind:title="recipe.title.rendered" v-bind:description="recipe.excerpt.rendered"
         v-bind:image="recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100'" />
@@ -19,8 +23,24 @@ export default {
   components: {
     RecipeComponent
   },
+  methods: {
+    async nextPage() {
+      this.currentPage++;
+      const response = await RecipeService.findAll(this.currentPage);
+      this.recipes = response.data;
+      this.maxPages = response.headers['x-wp-totalpages'];
+    },
+    async previousPage() {
+      this.currentPage--;
+      const response = await RecipeService.findAll(this.currentPage);
+      this.recipes = response.data;
+      this.maxPages = response.headers['x-wp-totalpages'];
+    },
+  },
   async mounted() {
-    this.recipes = await RecipeService.findAll();
+    let response = await RecipeService.findAll();
+    this.recipes = response.data;
+    this.maxPages = response.headers['x-wp-totalpages'];
   },
   computed: {
     displayedRecipes() {
@@ -29,6 +49,8 @@ export default {
   },
   data() {
     return {
+      maxPages: 0,
+      currentPage: 1,
       searchString: "",
       recipes: []
     }
