@@ -10,7 +10,7 @@ const apiClient = axios.create({
 });
 
 export default {
-  async findAll(page = 1) {
-    return await apiClient.get('/recettes?_embed&per_page=10&page=' + page);
+  async findAllUsed() {
+    return await apiClient.get('/ingredients');
   },
 };
