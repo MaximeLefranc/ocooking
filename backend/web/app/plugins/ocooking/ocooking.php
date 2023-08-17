@@ -14,6 +14,9 @@ require plugin_dir_path(__FILE__) . './taxonomies/famille.php';
 // Load new role functions
 require plugin_dir_path(__FILE__) . './roles/cuisinier.php';
 
+// Load a new API root 
+require plugin_dir_path(__FILE__) . './custom-endpoints/registration.php';
+
 if (!function_exists('ocookingActivationPlugin')) {
     function ocookingActivationPlugin()
     {
