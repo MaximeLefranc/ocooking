@@ -1,8 +1,9 @@
 <template>
   <footer class="footer">
     <nav class="nav">
-      <a v-for="navElement in navElements" v-bind:key="navElement.name" v-bind:href="navElement.link">{{ navElement.name
-      }}</a>
+      <router-link v-for="navElement in navElements" v-bind:key="navElement.name" v-bind:to="navElement.link">{{
+        navElement.name
+      }}</router-link>
     </nav>
   </footer>
 </template>
@@ -15,15 +16,15 @@ export default {
       navElements: [
         {
           name: 'Liste des recettes',
-          link: '#'
+          link: '/'
         },
         {
           name: 'Inscription',
-          link: '#'
+          link: '/inscription'
         },
         {
           name: 'Connexion',
-          link: '#'
+          link: '/connexion'
         }
       ]
     }
@@ -54,4 +55,5 @@ export default {
       }
     }
   }
-}</style>
+}
+</style>
