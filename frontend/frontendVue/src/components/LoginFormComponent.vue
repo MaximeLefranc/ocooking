@@ -57,6 +57,10 @@ export default {
   }
 }
 
+fieldset {
+  text-align: initial;
+}
+
 .button {
   border: 1px solid gray;
   background-color: transparent;
@@ -65,5 +69,6 @@ export default {
   font-size: 1.2rem;
   text-transform: uppercase;
   margin-top: 2rem;
+  cursor: pointer;
 }
 </style>
