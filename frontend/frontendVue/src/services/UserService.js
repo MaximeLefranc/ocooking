@@ -10,7 +10,12 @@ const apiClient = axios.create({
 });
 
 export default {
-  async findAllUsed() {
-    return await apiClient.get('/ingredients');
+  async register(params) {
+    try {
+      const response = await apiClient.post('/users/register', params);
+      return response.data;
+    } catch (e) {
+      return e.response.data;
+    }
   },
 };

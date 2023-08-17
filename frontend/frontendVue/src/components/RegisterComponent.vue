@@ -2,6 +2,7 @@
   <main class="main-container">
     <h1>Créer un compte</h1>
     <form v-on:submit.prevent="validateForm">
+      <p v-if="errors.API" class="field__errormessage">{{ errors.API }}</p>
       <fieldset>
         <div class="field">
           <p v-if="errors.email" class="field__errormessage">{{ errors.email }}</p>
@@ -34,6 +35,8 @@
 </template>
 
 <script>
+import UserService from '@/services/UserService';
+
 export default {
   name: 'RegisterComponent',
   data() {
@@ -46,18 +49,20 @@ export default {
         email: '',
         username: '',
         password: '',
-        passwordVerification: ''
+        passwordVerification: '',
+        API: ''
       }
     }
   },
   methods: {
-    validateForm() {
+    async validateForm() {
       let hasError = false;
       this.errors = {
         email: '',
         username: '',
         password: '',
-        passwordVerification: ''
+        passwordVerification: '',
+        API: '',
       };
 
       if (this.email === '') {
@@ -79,7 +84,18 @@ export default {
       }
 
       if (!hasError) {
-        console.log('envoie la requête');
+        const response = await UserService.register({
+          'pseudo': this.username,
+          'email': this.email,
+          'password': this.password,
+          'role': 'contributor'
+        })
+
+        if (response.code === 200) {
+          this.$router.push('/connexion');
+        } else {
+          this.errors.API = response.message;
+        }
       }
     }
   }
