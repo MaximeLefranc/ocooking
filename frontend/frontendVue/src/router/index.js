@@ -20,7 +20,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/RegisterView.vue'),
   },
   {
-    path: '/recette',
+    path: '/recette/:id(\\d+)',
     name: 'recette',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/RecipeView.vue'),

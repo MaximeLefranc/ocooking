@@ -133,6 +133,7 @@ export default {
     font-weight: bold;
     text-align: center;
     font-size: initial;
+    line-height: initial;
   }
 }
 
