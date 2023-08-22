@@ -1,21 +1,35 @@
 <template>
   <HeaderComponent />
-  <h1>RecipeView</h1>
+  <RecipeDetailComponent v-bind:title="title" v-bind:content="content" v-bind:image="image"
+    v-bind:ingredients="ingredients" />
   <FooterComponent />
 </template>
 
 <script>
 import FooterComponent from '@/components/FooterComponent';
 import HeaderComponent from '@/components/HeaderComponent';
+import RecipeDetailComponent from '@/components/RecipeDetailComponent';
 import RecipeService from '@/services/RecipeService';
 
 export default {
   name: 'RecipeView',
-  components: { HeaderComponent, FooterComponent },
+  components: { HeaderComponent, FooterComponent, RecipeDetailComponent },
   async mounted() {
     const recipe = await RecipeService.findOne(this.$route.params.id);
     if (recipe.code && recipe.code === 'rest_post_invalid_id') {
       this.$router.push('/');
+    }
+    this.content = recipe.content.rendered;
+    this.title = recipe.title.rendered;
+    this.image = recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100';
+    this.ingredients = recipe._embedded["wp:term"][0];
+  },
+  data() {
+    return {
+      title: '',
+      image: '',
+      content: '',
+      ingredients: [],
     }
   }
 }

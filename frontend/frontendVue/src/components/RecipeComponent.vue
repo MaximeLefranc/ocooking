@@ -1,12 +1,12 @@
 <template>
   <article class="article">
-    <a href="javascript:void(0)">
+    <router-link :to="'/recette/' + ID">
       <div class="media-image" v-bind:style="'background-image: url(' + image + ')'"></div>
       <div class="text-content">
         <h2>{{ title }}</h2>
         <div v-html="description"></div>
       </div>
-    </a>
+    </router-link>
   </article>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   props: {
     title: String,
     description: String,
-    image: String
+    image: String,
+    ID: Number
   }
 }
 </script>

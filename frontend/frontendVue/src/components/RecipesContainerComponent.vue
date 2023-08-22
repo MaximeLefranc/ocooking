@@ -12,7 +12,7 @@
         <button v-if="currentPage !== 1" v-on:click="previousPage">Page Précédente</button>
         <button v-if="maxPages > this.currentPage" v-on:click="nextPage">Page Suivante</button>
       </div>
-      <RecipeComponent v-for="recipe in    displayedRecipes   " v-bind:key="recipe.id"
+      <RecipeComponent v-for="recipe in    displayedRecipes   " v-bind:key="recipe.id" v-bind:ID=recipe.id
         v-bind:title="recipe.title.rendered" v-bind:description="recipe.excerpt.rendered"
         v-bind:image="recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100'" />
     </div>
