@@ -4,9 +4,9 @@
     <form v-on:submit.prevent="validateForm">
       <fieldset>
         <div class="field">
-          <label class="field__label">Adresse e-mail</label>
+          <label class="field__label">Pseudo</label>
           <p v-if="errors.username" class="field__errormessage">{{ errors.username }}</p>
-          <input v-model="username" class="field__input" type="text" placeholder="johndoe@ocooking.local">
+          <input v-model="username" class="field__input" type="text" placeholder="JohnWick">
         </div>
         <div class="field field--error">
           <label class="field__label">Mot de passe</label>
@@ -15,13 +15,15 @@
         </div>
       </fieldset>
 
-      <div v-if="false" class="alert error">Le mot de passe est incorrect</div>
+      <div v-if="errors.API" class="field__errormessage" v-html="errors.API" />
       <button class="button">Connexion</button>
     </form>
   </main>
 </template>
 
 <script>
+import UserService from '@/services/UserService';
+
 export default {
   name: 'LoginFormComponent',
   data() {
@@ -30,16 +32,18 @@ export default {
       'password': '',
       errors: {
         username: '',
-        password: ''
+        password: '',
+        API: ''
       }
     }
   },
   methods: {
-    validateForm() {
+    async validateForm() {
       let hasError = false;
       this.errors = {
         username: '',
-        password: ''
+        password: '',
+        API: ''
       };
       if (this.username === '') {
         this.errors.username = 'Le nom d\'utilisateur ne peut pas être vide.';
@@ -52,7 +56,16 @@ export default {
       }
 
       if (!hasError) {
-        console.log('je lance l\'appel API');
+        const response = await UserService.login({
+          username: this.username,
+          password: this.password
+        })
+
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        } else {
+          this.errors.API = response.message;
+        }
       }
     }
   }
@@ -64,7 +77,7 @@ export default {
 .main-container {
   text-align: center;
   display: flex;
-  margin: 5rem auto 2rem auto;
+  margin: 8rem auto 2rem auto;
   flex-direction: column;
   align-items: center;
   background-color: #F0F4ED;

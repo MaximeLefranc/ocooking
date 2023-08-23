@@ -106,7 +106,7 @@ export default {
 .main-container {
   text-align: center;
   display: flex;
-  margin: 5rem auto 2rem auto;
+  margin: 8rem auto 2rem auto;
   flex-direction: column;
   align-items: center;
   background-color: #F0F4ED;
