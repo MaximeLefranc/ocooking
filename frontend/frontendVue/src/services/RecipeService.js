@@ -16,9 +16,20 @@ export default {
 
   async findOne(id) {
     try {
-      const response = await apiClient.get(
-        'http://ocooking.api.local/wp-json/wp/v2/recettes/' + id + '?_embed'
-      );
+      const response = await apiClient.get('/recettes/' + id + '?_embed');
+      return response.data;
+    } catch (e) {
+      return e.response.data;
+    }
+  },
+
+  async create(params) {
+    try {
+      const response = await apiClient.post('/recettes', params, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      });
       return response.data;
     } catch (e) {
       return e.response.data;

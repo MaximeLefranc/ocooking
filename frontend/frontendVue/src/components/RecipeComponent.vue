@@ -3,7 +3,7 @@
     <router-link :to="'/recette/' + ID">
       <div class="media-image" v-bind:style="'background-image: url(' + image + ')'"></div>
       <div class="text-content">
-        <h2>{{ title }}</h2>
+        <h2 v-html="title" />
         <div v-html="description"></div>
       </div>
     </router-link>

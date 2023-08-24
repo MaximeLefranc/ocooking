@@ -1,6 +1,6 @@
 <template>
   <main class="main-container">
-    <h1>{{ title }}</h1>
+    <h1 v-html="title" />
     <article class="recipe">
       <section class="informations">
         <ul v-if="false">
@@ -10,7 +10,7 @@
         <div class="media-image" v-bind:style="'background-image: url(' + image + ')'"></div>
       </section>
 
-      <section class="ingredients">
+      <section v-if="ingredients.length" class="ingredients">
         <h2>Ingrédients</h2>
         <ul>
           <li v-for="ingredient in ingredients" v-bind:key="ingredient.id">{{ ingredient.name }}</li>

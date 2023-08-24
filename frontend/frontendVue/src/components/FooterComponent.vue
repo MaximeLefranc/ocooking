@@ -1,9 +1,11 @@
 <template>
   <footer class="footer">
-    <nav class="nav">
-      <router-link v-for="navElement in navElements" v-bind:key="navElement.name" v-bind:to="navElement.link">{{
-        navElement.name
-      }}</router-link>
+    <nav class="nav" v-if="displayNav">
+      <router-link :to="'/'">Liste des recettes</router-link>
+      <router-link v-if="!isConnected" :to="'/inscription'">Inscription</router-link>
+      <router-link v-if="!isConnected" :to="'/connexion'">Connexion</router-link>
+      <router-link v-if="isConnected" :to="'/recette/creation'">Créer une recette</router-link>
+      <router-link v-on:click="disconnect" v-if="isConnected" :to="'/connexion'">Déconnexion</router-link>
     </nav>
   </footer>
 </template>
@@ -13,20 +15,18 @@ export default {
   name: 'FooterComponent',
   data() {
     return {
-      navElements: [
-        {
-          name: 'Liste des recettes',
-          link: '/'
-        },
-        {
-          name: 'Inscription',
-          link: '/inscription'
-        },
-        {
-          name: 'Connexion',
-          link: '/connexion'
-        }
-      ]
+      displayNav: true
+    }
+  },
+  computed: {
+    isConnected() {
+      return localStorage.getItem('token') ? true : false;
+    }
+  },
+  methods: {
+    disconnect() {
+      localStorage.removeItem('token');
+      this.$router.push('/');
     }
   }
 }

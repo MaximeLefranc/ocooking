@@ -1,38 +1,40 @@
 <template>
   <main class="main-container">
-    <h1>Connexion</h1>
+    <h1>Créer une recette</h1>
     <form v-on:submit.prevent="validateForm">
       <fieldset>
         <div class="field">
-          <label class="field__label">Pseudo</label>
-          <p v-if="errors.username" class="field__errormessage">{{ errors.username }}</p>
-          <input v-model="username" class="field__input" type="text" placeholder="JohnWick">
+          <label class="field__label">Titre</label>
+          <p v-if="errors.title" class="field__errormessage">{{ errors.title }}</p>
+          <input v-model="title" class="field__input" type="text">
         </div>
-        <div class="field field--error">
-          <label class="field__label">Mot de passe</label>
-          <p v-if="errors.password" class="field__errormessage">{{ errors.password }}</p>
-          <input v-model="password" class="field__input" type="password" placeholder="Mot de passe">
+        <div class="field">
+          <label class="field__label">Contenu de la recette</label>
+          <p v-if="errors.content" class="field__errormessage">{{ errors.content }}</p>
+          <textarea v-model="content" class="field__input" cols="30" rows="10"></textarea>
         </div>
       </fieldset>
 
       <div v-if="errors.API" class="field__errormessage" v-html="errors.API" />
-      <button class="button">Connexion</button>
+      <button class="button">Création</button>
     </form>
   </main>
 </template>
 
 <script>
-import UserService from '@/services/UserService';
+import RecipeService from '@/services/RecipeService';
+
+
 
 export default {
-  name: 'LoginFormComponent',
+  name: 'CreateRecipeFormComponent',
   data() {
     return {
-      'username': '',
-      'password': '',
+      'title': '',
+      'content': '',
       errors: {
-        username: '',
-        password: '',
+        title: '',
+        content: '',
         API: ''
       }
     }
@@ -41,32 +43,27 @@ export default {
     async validateForm() {
       let hasError = false;
       this.errors = {
-        username: '',
-        password: '',
+        title: '',
+        content: '',
         API: ''
       };
-      if (this.username === '') {
-        this.errors.username = 'Le nom d\'utilisateur ne peut pas être vide.';
+      if (this.title === '') {
+        this.errors.title = 'Le titre ne peut pas être vide.';
         hasError = true;
       }
 
-      if (this.password === '') {
-        this.errors.password = 'Le mot de passe ne peut pas être vide.';
+      if (this.content === '') {
+        this.errors.content = 'Le contenu ne peut pas être vide.';
         hasError = true;
       }
 
       if (!hasError) {
-        const response = await UserService.login({
-          username: this.username,
-          password: this.password
-        })
-
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          this.$router.push('/');
-        } else {
-          this.errors.API = response.message;
-        }
+        const response = await RecipeService.create({
+          title: this.title,
+          content: this.content,
+          excerpt: '',
+        });
+        console.log(response);
       }
     }
   }
@@ -82,10 +79,14 @@ export default {
   flex-direction: column;
   align-items: center;
   background-color: #F0F4ED;
-  width: fit-content;
+  width: 50%;
   padding: 5rem;
   border-radius: .5rem;
   box-shadow: 2px 2px 6px 0px black;
+
+  form {
+    width: 100%;
+  }
 }
 
 .field {
@@ -106,6 +107,10 @@ export default {
     font-weight: bold;
     font-size: 1rem;
     line-height: initial;
+  }
+
+  textarea {
+    resize: none;
   }
 }
 

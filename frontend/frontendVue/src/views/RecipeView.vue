@@ -22,7 +22,7 @@ export default {
     this.content = recipe.content.rendered;
     this.title = recipe.title.rendered;
     this.image = recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100';
-    this.ingredients = recipe._embedded["wp:term"][0];
+    this.ingredients = recipe.ingredients.length ? recipe._embedded["wp:term"][0] : [];
   },
   data() {
     return {
