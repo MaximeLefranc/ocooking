@@ -39,7 +39,7 @@ function recette_init()
             'hierarchical'          => false,
             'show_ui'               => true,
             'show_in_nav_menus'     => true,
-            'supports'              => ['title', 'editor', 'thumbnail', 'excerpt'],
+            'supports'              => ['title', 'editor', 'thumbnail', 'excerpt', 'comments'],
             'has_archive'           => true,
             'rewrite'               => true,
             'query_var'             => true,
