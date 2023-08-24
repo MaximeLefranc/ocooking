@@ -21,40 +21,34 @@
         <div v-html="content"></div>
       </section>
     </article>
-    <section v-if="false">
-      <header>
-        <h2>Commentaires (1)</h2>
+    <section>
+      <header v-if="comments.length">
+        <h2>Commentaires</h2>
       </header>
       <main>
-        <div class="comment">
-          <p class="author">Jean-Paul Belmondo</p>
-          <p>Coucou, je suis un commentaire. J’adore les pantouflets de légumes.</p>
+        <div v-if="comments.length">
+          <CommentDetailComponent v-for="comment in comments" v-bind:key="comment.id" v-bind:author="comment.author_name"
+            v-bind:content="comment.content.rendered" />
         </div>
-        <div class="comment-form">
-          <h3>Commenter</h3>
-          <form>
-            <div>
-              <div class="field">
-                <textarea placeholder="Le texte de votre commentaire" class="textarea field__input"></textarea>
-              </div>
-            </div>
-            <button type="submit" class="button">Commenter</button>
-          </form>
-        </div>
+        <CommentCreateComponent />
       </main>
     </section>
   </main>
 </template>
 
 <script>
+import CommentDetailComponent from '@/components/CommentDetailComponent';
+import CommentCreateComponent from '@/components/CommentCreateComponent';
 
 export default {
   name: 'RecipeDetailComponent',
+  components: { CommentDetailComponent, CommentCreateComponent },
   props: {
     title: String,
     image: String,
     ingredients: Array,
     content: String,
+    comments: Array
   }
 }
 </script>
