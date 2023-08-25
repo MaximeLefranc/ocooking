@@ -26,32 +26,31 @@ export default {
       }
     }
   },
+  props: {
+    id: Number,
+  },
   methods: {
     async validate() {
-      let hasError = false;
       this.errors = {
         comment: '',
         API: ''
       };
       if (this.comment === '') {
-        hasError = true;
         this.errors.comment = 'Le contenu ne peut pas être vide';
-      }
-
-      if (!hasError && localStorage.getItem('token')) {
+      } else if (!localStorage.getItem('token')) {
+        this.errors.comment = 'Vous devez être connecté pour laisser un commentaire';
+      } else {
         const response = await CommentService.create({
-          post: this.$route.params.id,
+          post: this.id,
           content: this.comment
         });
-        console.log(response);
+
         if (response.code) {
-          console.log('je suis ici');
           this.errors.API = response.message;
         } else {
-          this.$router.go();
+          this.comment = '';
+          this.$emit('newComment');
         }
-      } else {
-        this.errors.comment = 'Vous devez être connecté pour laisser un commentaire';
       }
     }
   }

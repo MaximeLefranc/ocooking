@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <p class="author" v-html="author" />
-    <p v-html="content" />
+    <div v-html="content" />
   </div>
 </template>
 

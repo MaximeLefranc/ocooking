@@ -27,10 +27,10 @@
       </header>
       <main>
         <div v-if="comments.length">
-          <CommentDetailComponent v-for="comment in comments" v-bind:key="comment.id" v-bind:author="comment.author_name"
-            v-bind:content="comment.content.rendered" />
+          <CommentDetailComponent v-for="comment in comments" :key="comment.id" :author="comment.author_name"
+            :content="comment.content.rendered" :id="comment.id" />
         </div>
-        <CommentCreateComponent />
+        <CommentCreateComponent v-if="isConnected" v-on:newComment="updateComments" v-bind:id="id" />
       </main>
     </section>
   </main>
@@ -39,16 +39,37 @@
 <script>
 import CommentDetailComponent from '@/components/CommentDetailComponent';
 import CommentCreateComponent from '@/components/CommentCreateComponent';
+import CommentService from '@/services/CommentService';
 
 export default {
   name: 'RecipeDetailComponent',
   components: { CommentDetailComponent, CommentCreateComponent },
+  async mounted() {
+    const response = await CommentService.findAllByRecipeID(this.$route.params.id);
+    this.comments = response.data;
+  },
+  data() {
+    return {
+      comments: [],
+    }
+  },
   props: {
     title: String,
     image: String,
     ingredients: Array,
     content: String,
-    comments: Array
+    id: Number
+  },
+  computed: {
+    isConnected() {
+      return localStorage.getItem('token') ? true : false;
+    }
+  },
+  methods: {
+    async updateComments() {
+      const response = await CommentService.findAllByRecipeID(this.$route.params.id);
+      this.comments = response.data;
+    }
   }
 }
 </script>

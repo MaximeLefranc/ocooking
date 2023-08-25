@@ -10,6 +10,10 @@ const apiClient = axios.create({
 });
 
 export default {
+  async findAllByRecipeID(id) {
+    return await apiClient.get('/comments?post=' + id);
+  },
+
   async create(params) {
     try {
       const response = await apiClient.post('/comments', params, {

@@ -1,7 +1,6 @@
 <template>
   <HeaderComponent />
-  <RecipeDetailComponent v-bind:title="title" v-bind:content="content" v-bind:image="image"
-    v-bind:ingredients="ingredients" v-bind:comments="comments" />
+  <RecipeDetailComponent :title="title" :content="content" :image="image" :ingredients="ingredients" :id="id" />
   <FooterComponent />
 </template>
 
@@ -23,15 +22,15 @@ export default {
     this.title = recipe.title.rendered;
     this.image = recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100';
     this.ingredients = recipe.ingredients.length ? recipe._embedded["wp:term"][0] : [];
-    this.comments = recipe._embedded && recipe._embedded.replies ? recipe._embedded.replies[0] : [];
+    this.id = recipe.id;
   },
   data() {
     return {
+      id: 0,
       title: '',
       image: '',
       content: '',
       ingredients: [],
-      comments: [],
     }
   }
 }
