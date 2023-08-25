@@ -1,11 +1,11 @@
 <template>
   <div class="comment-form">
     <h3>Commenter</h3>
-    <form>
-      <div>
-        <div class="field">
-          <textarea placeholder="Le texte de votre commentaire" class="textarea field__input"></textarea>
-        </div>
+    <form v-on:submit.prevent="validate">
+      <div class="field">
+        <p v-if="errors.comment" class="field__errormessage">{{ errors.comment }}</p>
+        <p v-if="errors.API" class="field__errormessage" v-html="errors.API" />
+        <textarea v-model="comment" placeholder="Le texte de votre commentaire" class="textarea field__input"></textarea>
       </div>
       <button type="submit" class="button">Commenter</button>
     </form>
@@ -13,9 +13,56 @@
 </template>
 
 <script>
+import CommentService from '@/services/CommentService';
+
 export default {
-  name: 'CommentCreateComponent'
+  name: 'CommentCreateComponent',
+  data() {
+    return {
+      comment: '',
+      errors: {
+        comment: '',
+        API: ''
+      }
+    }
+  },
+  methods: {
+    async validate() {
+      let hasError = false;
+      this.errors = {
+        comment: '',
+        API: ''
+      };
+      if (this.comment === '') {
+        hasError = true;
+        this.errors.comment = 'Le contenu ne peut pas être vide';
+      }
+
+      if (!hasError && localStorage.getItem('token')) {
+        const response = await CommentService.create({
+          post: this.$route.params.id,
+          content: this.comment
+        });
+        console.log(response);
+        if (response.code) {
+          console.log('je suis ici');
+          this.errors.API = response.message;
+        } else {
+          this.$router.go();
+        }
+      } else {
+        this.errors.comment = 'Vous devez être connecté pour laisser un commentaire';
+      }
+    }
+  }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.field__errormessage {
+  color: red;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: initial;
+}
+</style>

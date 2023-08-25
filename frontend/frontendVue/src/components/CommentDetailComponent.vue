@@ -15,4 +15,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.comment {
+  margin-bottom: 1rem;
+
+  .author {
+    font-style: oblique;
+    font-size: 1.2rem;
+  }
+}
+</style>
