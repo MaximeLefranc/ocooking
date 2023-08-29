@@ -40,6 +40,8 @@
 import CommentDetailComponent from '@/components/CommentDetailComponent';
 import CommentCreateComponent from '@/components/CommentCreateComponent';
 import CommentService from '@/services/CommentService';
+import { useUserStore } from '@/stores/UserStore';
+import { computed } from 'vue';
 
 export default {
   name: 'RecipeDetailComponent',
@@ -60,15 +62,17 @@ export default {
     content: String,
     id: Number
   },
-  computed: {
-    isConnected() {
-      return localStorage.getItem('token') ? true : false;
-    }
-  },
   methods: {
     async updateComments() {
       const response = await CommentService.findAllByRecipeID(this.$route.params.id);
       this.comments = response.data;
+    }
+  },
+  setup() {
+    const userStore = useUserStore();
+
+    return {
+      isConnected: computed(() => userStore.$state.isConnected),
     }
   }
 }

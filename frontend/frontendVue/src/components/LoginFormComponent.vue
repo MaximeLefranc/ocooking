@@ -23,6 +23,7 @@
 
 <script>
 import UserService from '@/services/UserService';
+import { useUserStore } from '@/stores/UserStore';
 
 export default {
   name: 'LoginFormComponent',
@@ -62,12 +63,18 @@ export default {
         })
 
         if (response.token) {
-          localStorage.setItem('token', response.token);
+          this.userStore.connect(response.token);
           this.$router.push('/');
         } else {
           this.errors.API = response.message;
         }
       }
+    }
+  },
+  setup() {
+    const userStore = useUserStore();
+    return {
+      userStore,
     }
   }
 }
