@@ -63,7 +63,10 @@ export default {
           content: this.content,
           excerpt: '',
         });
-        console.log(response);
+        if (response.id) {
+          this.title = '';
+          this.content = '';
+        }
       }
     }
   }

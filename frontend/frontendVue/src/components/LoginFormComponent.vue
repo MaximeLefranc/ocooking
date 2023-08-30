@@ -61,9 +61,10 @@ export default {
           username: this.username,
           password: this.password
         })
-
-        if (response.token) {
-          this.userStore.connect(response.token);
+        if (response.success) {
+          this.userStore.connect(response.data.token);
+          const getRole = await UserService.getRole(response.data.id);
+          this.userStore.saveRole(getRole.roles[0]);
           this.$router.push('/');
         } else {
           this.errors.API = response.message;

@@ -2,10 +2,12 @@
   <footer class="footer">
     <nav class="nav" v-if="displayNav">
       <router-link :to="'/'">Liste des recettes</router-link>
-      <router-link v-if="!user.isConnected" :to="'/inscription'">Inscription</router-link>
-      <router-link v-if="!user.isConnected" :to="'/connexion'">Connexion</router-link>
-      <router-link v-if="user.isConnected" :to="'/recette/creation'">Créer une recette</router-link>
-      <router-link v-on:click="disconnect" v-if="user.isConnected" :to="'/connexion'">Déconnexion</router-link>
+      <router-link v-if="!userIsConnected" :to="'/inscription'">Inscription</router-link>
+      <router-link v-if="!userIsConnected" :to="'/connexion'">Connexion</router-link>
+      <router-link v-if="userIsConnected" :to="'/recette/creation'">Créer une recette</router-link>
+      <router-link v-if="userIsConnected && canValidatePendingRecipies" :to="'/recette/validation'">Recettes en
+        attente</router-link>
+      <router-link v-on:click="disconnect" v-if="userIsConnected" :to="'/connexion'">Déconnexion</router-link>
     </nav>
   </footer>
 </template>
@@ -25,15 +27,17 @@ export default {
   methods: {
     disconnect() {
       this.resetStore();
-      // this.$router.push('/');
+      this.$router.push('/');
     }
   },
   setup() {
     const userStore = useUserStore();
     const isConnected = computed(() => userStore.getIsConnected);
+    const canValidatePendingRecipies = computed(() => userStore.canValidatePendingRecipies);
     return {
-      user: isConnected,
-      resetStore: userStore.disconnect
+      userIsConnected: isConnected,
+      resetStore: userStore.disconnect,
+      canValidatePendingRecipies
     }
   }
 }

@@ -26,4 +26,19 @@ export default {
       return e.response.data;
     }
   },
+  async getRole(id) {
+    try {
+      const response = await apiClient.get(
+        '/wp/v2/users/' + id + '?context=edit',
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (e) {
+      return e.response.data;
+    }
+  },
 };

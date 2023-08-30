@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import { useUserStore } from '@/stores/UserStore';
 
 const routes = [
   {
@@ -13,7 +14,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/ConnectView.vue'),
     beforeEnter: () => {
-      if (localStorage.getItem('token')) {
+      const userStore = useUserStore();
+      if (userStore.$state.isConnected) {
         return {
           path: '/',
         };
@@ -26,7 +28,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/RegisterView.vue'),
     beforeEnter: () => {
-      if (localStorage.getItem('token')) {
+      const userStore = useUserStore();
+      if (userStore.$state.isConnected) {
         return {
           path: '/',
         };
@@ -40,12 +43,19 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/RecipeView.vue'),
   },
   {
+    path: '/recette/validation',
+    name: 'recette_validation ',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/PublishRecipeView.vue'),
+  },
+  {
     path: '/recette/creation',
     name: 'recette_creation',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/NewRecipeView.vue'),
     beforeEnter: () => {
-      if (!localStorage.getItem('token')) {
+      const userStore = useUserStore();
+      if (!userStore.$state.isConnected) {
         return {
           path: '/',
         };
