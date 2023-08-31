@@ -1,3 +1,4 @@
+import { useUserStore } from '@/stores/UserStore';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -27,12 +28,13 @@ export default {
     }
   },
   async getRole(id) {
+    const userStore = useUserStore();
     try {
       const response = await apiClient.get(
         '/wp/v2/users/' + id + '?context=edit',
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + userStore.$state.token,
           },
         }
       );

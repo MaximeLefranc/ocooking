@@ -5,7 +5,7 @@
       <router-link v-if="!userIsConnected" :to="'/inscription'">Inscription</router-link>
       <router-link v-if="!userIsConnected" :to="'/connexion'">Connexion</router-link>
       <router-link v-if="userIsConnected" :to="'/recette/creation'">Créer une recette</router-link>
-      <router-link v-if="userIsConnected && canValidatePendingRecipies" :to="'/recette/validation'">Recettes en
+      <router-link v-if="canValidatePendingRecipies" :to="'/recette/validation'">Recettes en
         attente</router-link>
       <router-link v-on:click="disconnect" v-if="userIsConnected" :to="'/connexion'">Déconnexion</router-link>
     </nav>

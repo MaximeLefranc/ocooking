@@ -1,3 +1,4 @@
+import { useUserStore } from '@/stores/UserStore';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -15,10 +16,11 @@ export default {
   },
 
   async create(params) {
+    const userStore = useUserStore();
     try {
       const response = await apiClient.post('/comments', params, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          Authorization: 'Bearer ' + userStore.$state.token,
         },
       });
       return response.data;

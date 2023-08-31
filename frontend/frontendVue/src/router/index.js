@@ -47,6 +47,14 @@ const routes = [
     name: 'recette_validation ',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/PublishRecipeView.vue'),
+    beforeEnter: () => {
+      const userStore = useUserStore();
+      if (!userStore.canValidatePendingRecipies || !userStore.isConnected) {
+        return {
+          path: '/',
+        };
+      }
+    },
   },
   {
     path: '/recette/creation',

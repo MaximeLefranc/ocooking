@@ -15,7 +15,7 @@ export const useUserStore = defineStore('userStore', {
     },
     canValidatePendingRecipies: (state) => {
       const authorizedRoles = ['administrator', 'cuisinier'];
-      if (authorizedRoles.includes(state.role)) {
+      if (authorizedRoles.includes(state.role) && state.isConnected) {
         return true;
       }
       return false;
