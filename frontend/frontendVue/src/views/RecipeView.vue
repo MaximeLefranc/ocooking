@@ -18,6 +18,7 @@ export default {
     if (recipe.code && recipe.code === 'rest_post_invalid_id') {
       this.$router.push('/');
     }
+    console.log(recipe);
     this.content = recipe.content.rendered;
     this.title = recipe.title.rendered;
     this.image = recipe.featured_media ? recipe._embedded['wp:featuredmedia'][0].source_url : 'https://source.unsplash.com/collection/157&random=100';

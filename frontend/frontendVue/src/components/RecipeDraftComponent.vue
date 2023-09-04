@@ -23,7 +23,9 @@ export default {
   components: { RecipeComponent },
   methods: {
     async publishRecipe() {
-      const response = await RecipeService.recipeStatusPublished(this.id);
+      const response = await RecipeService.update(this.id, {
+        status: 'publish',
+      });
       this.checkResponse(response);
     },
     async deleteRecipe() {

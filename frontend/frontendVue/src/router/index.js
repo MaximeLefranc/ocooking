@@ -70,6 +70,20 @@ const routes = [
       }
     },
   },
+  {
+    path: '/recette/edition',
+    name: 'recette_edition',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/EditRecipeView.vue'),
+    beforeEnter: () => {
+      const userStore = useUserStore();
+      if (!userStore.$state.isConnected) {
+        return {
+          path: '/',
+        };
+      }
+    },
+  },
 ];
 
 const router = createRouter({
